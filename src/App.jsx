@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import TritonLogo from './assets/LOGO TRITON CIRCULAR PNG.png'
+import TritonLogo from "./assets/LOGO TRITON CIRCULAR PNG.png"
+import TritonLogo2 from "./assets/LOGO TRITON PNG.png"
 import './App.css'
 import {NavBar} from "./components/NavBar/NavBar"
 import {ItemListContainer} from "./components/ItemListContainer/ItemListContainer"
@@ -11,16 +11,14 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    
+      
     <div>
-      <NavBar />
+      <NavBar LOGO={TritonLogo2}/>
+      <ItemListContainer imagen="https://images.pexels.com/photos/587741/pexels-photo-587741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  greeting= "Eventos de calidad al alcance de tu mano" />
       <div className="container">
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={TritonLogo} className="logo" alt="Triton logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+          <img src={TritonLogo} className="logo" alt="Triton logo" style={{width: 300, height: "auto"}}/>
         </a>
       </div>
       <h1>Creá tu evento de forma sencilla</h1>

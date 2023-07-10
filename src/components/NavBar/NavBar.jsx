@@ -1,6 +1,6 @@
 import {CartWidget} from "../CartWidget/CartWidget"
 
-export const NavBar = () => {
+export const NavBar = ({LOGO}) => {
     return (
       <header>
           <div className="container">
@@ -9,7 +9,7 @@ export const NavBar = () => {
             justifyContent: "space-between",
             alignItems: "center",
           }}>
-            <span style={{fontSize: 24, fontFamily: "sans-serif", fontWeight: "bolder"}}> Triton </span>
+            <img src={LOGO} alt="Logo" style={{width:150}}/>
               <nav style={{display:"flex", gap: 20}}>
                 <a href="">Crea Tu evento</a>
                 <a href="">Inicio</a>
