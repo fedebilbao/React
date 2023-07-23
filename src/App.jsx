@@ -1,19 +1,42 @@
-import { useState } from 'react'
-import TritonLogo from "./assets/LOGO TRITON CIRCULAR PNG.png"
-import TritonLogo2 from "./assets/LOGO TRITON PNG.png"
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from "react-router-dom";
 import './App.css'
-import {NavBar} from "./components/NavBar/NavBar"
-import {ItemListContainer} from "./components/ItemListContainer/ItemListContainer"
+import {NavBar, ItemListContainer, ItemCount, Item } from "./components"
+import { Detail } from "./pages/Detail";
+import { Home } from "./pages/Home";
+import { Category } from "./pages/Category";
 
+const routes = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<NavBar />}>
 
+        <Route path="/" element={<Home />} />
+         <Route path="/item/:id" element={<Detail />} />
+         <Route path="/category/:id" element={<Category />} />
+
+    </Route>
+  )
+);
 
 function App() {
+  return (
+    <div>
+      <RouterProvider router={routes} />
+    </div>
+  );
+}
+/*
+function App() {
   const [count, setCount] = useState(0)
+  const handleCart= (q) => { 
+    console.loq ("la cantidad es", q)
+  }
 
   return (
       
     <div>
-      <NavBar LOGO={TritonLogo2}/>
+      <RouterProvider router={routes}/>
+      
+      <ItemCount stock={10} onAdd= {handleCart}/>
       <ItemListContainer imagen="https://images.pexels.com/photos/587741/pexels-photo-587741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  greeting= "Eventos de calidad al alcance de tu mano" />
       <div className="container">
       <div>
@@ -38,6 +61,6 @@ function App() {
     </div>
     
   )
-}
+}*/
 
 export default App
