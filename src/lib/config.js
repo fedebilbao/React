@@ -3,12 +3,12 @@ import { initializeApp } from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDEIHpNBwBsOyEQOqLlv85NRXxPnLTD5po",
-  authDomain: "eventos-triton.firebaseapp.com",
-  projectId: "eventos-triton",
-  storageBucket: "eventos-triton.appspot.com",
-  messagingSenderId: "621119425903",
-  appId: "1:621119425903:web:ee6e32b4b3081badd0ec9a"
+  apiKey: import.meta.env.VITE_FBS_API_KEY,
+  authDomain: import.meta.env.VITE_FBS_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FBS_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FBS_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FBS_SENDER_ID,
+  appId: import.meta.env.VITE_FBS_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

@@ -69,7 +69,8 @@ const EVENTOS = [
   ];
 
   import {db} from "./config";
-  import { collection, getDocs, getDoc, addDoc, doc, where, query } from "firebase/firestore";
+  import { collection, getDocs, getDoc, addDoc, doc, where, query,writeBatch,
+    increment,} from "firebase/firestore";
   const eventosRef = collection(db, "items");
 
 
@@ -98,4 +99,16 @@ const EVENTOS = [
 
   export const cargarData = async () => {
     EVENTOS.forEach(async (evento) => {await addDoc(eventosRef, evento)})
+  }
+
+  export const updateManyEvents = async (items) => {
+    const batch = writeBatch (db);
+
+    items.forEach(({id, qty}) =>{
+      batch.update(doc(db, "items", id), {
+        stock: increment(-qty)
+      })
+    })
+
+    batch.commit();
   }

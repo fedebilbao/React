@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./Item.css";
+import "./item.css";
 
 export const Item = ({ id, img, category, title, price }) => {
             const navigate = useNavigate();

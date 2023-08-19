@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {useCartContext} from "../state/Cart.context";
 import {addOrder} from "../lib/orders.requests";
-import {Swal} from "sweetalert2";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import "./Cart.css"
+import { updateManyEvents } from "../lib/evento.requests";
 
 export const Cart = () => {
     const [name, setName] = useState("");
@@ -20,15 +22,19 @@ export const Cart = () => {
         const order = {
             buyer: {name, phone, mail},
             items,
-            total: getTotalPrice,
+            total: getTotalPrice (),
         };
-        
+
         console.log (order);
 
         const id= await addOrder ( order );
-        console.log (id);
-        /* Swal.fire("su id es:"+ id);
-        cleanCart(); */
+        
+        await updateManyEvents (items);
+
+        const MySwal = withReactContent(Swal)
+
+        MySwal.fire("Guarde esta información para realizar el seguimiento de su pedido, su id es: "+ id);
+        cleanCart(); 
     }
 
     return (
