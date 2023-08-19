@@ -18,7 +18,7 @@ export const ItemCount = ({stock, onAdd}) =>{
                 <span>{count}</span>
                 <button onClick={()=> handleSum()}>+</button>
             </div>
-            <button disabled={!stock} onClick={()=>onAdd(count)}>Agregar a carrito</button>
+            <button disabled={!stock} onClick={()=>{onAdd(count); setCount(1);}}>Agregar a carrito</button>
         </div>
     );
 };

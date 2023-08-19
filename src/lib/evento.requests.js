@@ -1,8 +1,7 @@
 const EVENTOS = [
     {
-      id: 1,
       title: "Espacio Corporate",
-      category: "Salones",
+      category: "salones",
       price: 150000 ,
       description:
         "Espacio para eventos corporativos de hasta 150 personas con posibilidad de catering, al contar con mesas largas podrás poner tus grupos de trabajo por mesa. Nos encontramos en la zona de Nordelta",
@@ -10,9 +9,8 @@ const EVENTOS = [
       stock: 12,
     },
     {
-      id: 2,
       title: "La Disco Pirata",
-      category: "Salones",
+      category: "salones",
       description:
         "Disco para eventos juveniles con posibilidad de ingreso de 500 personas, contamos con 3 pistas donde podrás poner diferentes estilos de musica, al reservar nuestro salón podrás traer tu barra de tragos libre o contratar el servicio de barra pirata", 
       price: 250000,
@@ -20,19 +18,17 @@ const EVENTOS = [
       stock: 7,
     },
     {
-      id: 3,
       title: "Rooftop Lights On",
       description:
         "Nuestro rooftop ubicado en la zona de puerto madero cuenta con un espacio para 50 personas, reservalo para tus eventos privados de altisima calidad, contamos con degustaciones de vinos y un menu con platos de los mejores chef de buenos aires",
-      category: "Salones",
+      category: "salones",
       price: 180000,
       img: "https://images.pexels.com/photos/3835638/pexels-photo-3835638.jpeg?auto=compress&cs=tinysrgb&w=1600",
       stock: 6,
     },
     {
-      id: 4,
       title: "La Estancia",
-      category: "Salones",
+      category: "salones",
       description:
         "Espacio al aire libre en una estancia ubicada a 50km de capital federal, contamos con espacio para 300 personas y un servicio de mesa dulce para que tu merienda sea inolvidable",
   
@@ -41,9 +37,8 @@ const EVENTOS = [
       stock: 4,
     },
     {
-      id: 5,
       title: "DJ Paul Rodriguez",
-      category: "Shows",
+      category: "shows",
       description:
         "Soy un dj para fiestas electronicas, cuento con sets de techno, house y trance",
   
@@ -52,9 +47,8 @@ const EVENTOS = [
       stock: 8,
     },
     {
-      id: 6,
       title: "Mike Solomus",
-      category: "Shows",
+      category: "shows",
       description:
         "Cantante de musica melodica para eventos tranquilos, pedime la lista de canciones que más te gusta y no te voy a defraudar",
   
@@ -63,9 +57,8 @@ const EVENTOS = [
       stock: 18,
     },
     {
-        id: 7,
         title: "Tu Mozo",
-        category: "Servicios",
+        category: "servicios",
         description:
           "Contamos con una tropa de 3000 mozos a disposición para tus eventos, todos de altisima calidad y cordialidad, el precio publicado es por mozo",
     
@@ -75,24 +68,34 @@ const EVENTOS = [
       },
   ];
 
-  export const getEventos = (id) => {
-    const _eventos = id
-      ? EVENTOS.filter((evento) => evento.category.toLowerCase() === id)
-      : EVENTOS;
+  import {db} from "./config";
+  import { collection, getDocs, getDoc, addDoc, doc, where, query } from "firebase/firestore";
+  const eventosRef = collection(db, "items");
+
+
+
+  export const getEventos = async (category) => {
+    const q = category
+      ? query(eventosRef, where("category", "==", category))
+      : eventosRef;
   
-    return new Promise((res) => {
-      setTimeout(() => {
-        res(_eventos); 
-      }, 500);
-    });
+    let eventos = [];
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {eventos = [...eventos,{...doc.data(), id: doc.id}];});
+
+    return eventos;
   };
   
-  export const getEvento = (id) => {
-    const evento = EVENTOS.filter((evento) => evento.id === id)[0];
-  
-    return new Promise((res) => {
-      setTimeout(() => {
-        res(evento);
-      }, 1500);
-    });
+  export const getEvento = async (id) => {
+    const document = doc(db, "items", id);
+    const docSnap = await getDoc(document);
+
+    if(docSnap.exists()) return { id: docSnap.id, ...docSnap.data()};
+    return null;
   };
+
+  export const cargarData = async () => {
+    EVENTOS.forEach(async (evento) => {await addDoc(eventosRef, evento)})
+  }

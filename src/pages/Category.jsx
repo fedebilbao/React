@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getEventos } from "../lib/evento.requests";
-import { ItemListContainer } from "../components";
+import { ItemListContainer, Loader } from "../components";
 
 export const Category = () => {
     const {id} = useParams();
@@ -17,11 +17,11 @@ export const Category = () => {
         ) 
     }, [id]);
   
-  
+    if(isLoading) return <Loader />
+
     return (
       <div>
         <div className="container">
-          <h5>{isLoading ? "Cargando ..." : "Listo"}</h5>
           <ItemListContainer products={products} />
         </div>
       </div>

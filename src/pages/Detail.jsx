@@ -2,17 +2,26 @@ import { useEffect, useState } from "react";
 import { ItemCount } from "../components";
 import { getEvento } from "../lib/evento.requests";
 import { useParams } from "react-router-dom";
+import { useCartContext } from "../state/Cart.context";
 
 export const Detail = () => {
   const {id} = useParams();
   const [evento, setEvento] = useState({});
 
+  const {addProduct, itemInCart} = useCartContext();
+
+
 
   useEffect(() => {
-    getEvento(+id).then((res) => {
+    getEvento(id).then((res) => {
       setEvento(res);
     });
   }, []);
+
+  const handleAdd = (qty) => {
+    addProduct(evento, qty);
+
+  }
 
   if(!Object.keys(evento).length) return
 
@@ -37,7 +46,7 @@ export const Detail = () => {
 
           <span className="detail__info-stock">¡Quedan solo {evento.stock}!</span>
 
-          <ItemCount stock={evento.stock} onAdd={() => alert("Comprados")} />
+          <ItemCount stock={evento.stock - (itemInCart?.(id)?.qty || 0)} onAdd={handleAdd} />
         </div>
       </div>
     </div>

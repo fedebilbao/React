@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getEventos } from "../lib/evento.requests";
-import { ItemListContainer } from "../components";
+import { ItemListContainer, Loader } from "../components";
+/* import { cargarData} from "../lib/evento.requests" */
 
 export const Home = () => {
   
@@ -8,6 +9,7 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    /* cargarData() */
 
    getEventos() 
     .then(res => {
@@ -19,11 +21,11 @@ export const Home = () => {
   }, []);
 
 
+  if(isLoading) return <Loader />
 
   return (
     <div>
       <div className="container">
-        <h5>{isLoading ? "Cargando ..." : "Listo"}</h5>
         <ItemListContainer products={products}/>
       </div>
     </div>
